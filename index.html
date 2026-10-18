@@ -1,87 +1,97 @@
-<!doctype html><html lang="ku" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Znar TV</title>
-<style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800;900&display=swap');
-*{box-sizing:border-box}body{margin:0;font-family:'Noto Sans Arabic',system-ui,sans-serif;background:#06101c;color:#f5f7fb}header{position:sticky;top:0;background:#071321ee;backdrop-filter:blur(12px);border-bottom:1px solid #17324a;z-index:5}nav{max-width:1100px;margin:auto;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.logo{font-size:25px;font-weight:900;color:#19d3ad}.row{display:flex;gap:8px;flex-wrap:wrap}button{border:0;border-radius:11px;padding:10px 14px;background:#102235;color:#d9e5ef;cursor:pointer}.primary{background:linear-gradient(90deg,#19d3ad,#16a9df);color:#031219;font-weight:800}main{max-width:1100px;margin:auto;padding:22px 16px 55px}.hero{padding:42px 25px;border:1px solid #1b3a55;border-radius:24px;background:radial-gradient(circle at 15% 20%,#10536a,transparent 34%),linear-gradient(135deg,#0e2439,#08121f)}.hero h1{font-size:clamp(38px,8vw,68px);margin:0 0 12px}.hero h1 span{color:#19d3ad}.hero p{color:#9fb1c3;line-height:1.9}.section{margin-top:28px}.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.card,.panel{background:#0d1d2e;border:1px solid #19354d;border-radius:17px;padding:15px}.thumb{height:115px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#153c54,#0b1726);font-size:42px;margin-bottom:11px}.card h3{margin:7px 0}.card p,.small{color:#9fb1c3;font-size:13px;line-height:1.7}.live{font-size:11px;background:#481924;color:#ffb3bc;border-radius:20px;padding:4px 8px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ff4055;margin-left:5px}.player{display:none;margin-top:18px;background:#02070c;border:1px solid #19354d;border-radius:17px;padding:15px}.player video{width:100%;border-radius:10px;background:#000;max-height:500px}section:not(#home){display:none}.form{display:grid;gap:10px;max-width:600px}.form input,.form select,.form textarea{padding:12px;border:1px solid #29455d;border-radius:10px;background:#071321;color:white;font-size:15px}.admin-item{display:flex;justify-content:space-between;align-items:center;padding:11px;border-bottom:1px solid #1a3349}.danger{background:#55202a}footer{text-align:center;color:#7f94a9;border-top:1px solid #17324a;padding:25px;font-size:12px}@media(max-width:600px){nav{align-items:flex-start}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:30px 18px}}@media(max-width:390px){.grid{grid-template-columns:1fr}}
-</style></head><body>
-<header><nav><div class="logo">ZNAR TV</div><div class="row"><button onclick="show('home')">سەرەکی</button><button onclick="show('live')">📺 Live</button><button onclick="show('movies')">🎬 فیلم</button><button onclick="show('admin')">⚙️ Admin</button></div></nav></header>
+<!doctype html>
+<html lang="ku" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZnarTV</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="brand">ZnarTV</div><div class="sub">Live TV</div></header>
 <main>
-<section id="home"><div class="hero"><h1>بەخێربێیت بۆ <span>Znar TV</span></h1><p>پەخشی ڕاستەوخۆ، فیلم و ناوەڕۆکی میدیایی لە یەک شوێن.</p><button class="primary" onclick="show('live')">▶ پەخشکردن</button></div><div class="section"><div class="title"><h2>📺 کەنالەکان</h2></div><div class="grid" id="homeGrid"></div></div></section>
-<section id="live"><div class="title"><h2>📺 پەخشی ڕاستەوخۆ</h2></div><div class="grid" id="liveGrid"></div><div class="player" id="player"><div class="row"><button onclick="closePlayer()">داخستن</button><b id="playerTitle"></b></div><video id="video" controls playsinline></video></div></section>
-<section id="movies"><div class="title"><h2>🎬 فیلم و زنجیرە</h2></div><div class="grid"><div class="card"><div class="thumb">🎬</div><h3>فیلمی نوێ</h3><p>لە Admin ـەوە ناوەڕۆک زیاد بکە.</p></div><div class="card"><div class="thumb">🍿</div><h3>زنجیرە</h3><p>بەشی زنجیرەکان.</p></div></div></section>
-<section id="login"><div class="panel"><h2>🔐 Admin Login</h2><div class="form"><input id="pass" type="password" placeholder="وشەی نهێنی"><button class="primary" onclick="login()">چوونەژوورەوە</button><div class="small">ئەمە static demo ـە؛ بۆ security ـی ڕاستەقینە backend پێویستە.</div></div></div></section>
-<section id="admin"><div class="title"><h2>⚙️ Admin Panel</h2><button onclick="logout()">چوونەدەرەوە</button></div><div class="panel"><h3>📋 M3U Playlist</h3>
-<div class="form">
-<input id="m3uUrl" placeholder="M3U URL ـەکە لێرە دابنێ">
-<div class="row"><button class="primary" onclick="importM3UUrl()">⬇️ Import لە URL</button>
-<label style="padding:10px 14px;background:#102235;border-radius:11px;cursor:pointer">📁 Upload .m3u<input id="m3uFile" type="file" accept=".m3u,.m3u8,text/plain" style="display:none" onchange="importM3UFile(event)"></label></div>
-<textarea id="m3uText" rows="7" placeholder="#EXTM3U&#10;#EXTINF:-1,Channel Name&#10;https://example.com/live.m3u8" style="width:100%;padding:12px;border:1px solid #29455d;border-radius:10px;background:#071321;color:white;font-size:14px"></textarea>
-<button class="primary" onclick="importM3UText()">➕ Import ئەم Playlist ـە</button>
-<div class="small">تەنها playlist و stream ـە یاساییەکان بەکاربهێنە. URL ـی M3U دەبێت لە browser ـەکەوە دەستپێگەیشتن (CORS) هەبێت؛ Upload یان paste ـکردنی ناوەڕۆکی فایل زۆرجار ئاسانترە.</div>
-</div>
-<hr style="border:0;border-top:1px solid #1a3349;margin:20px 0">
-<h3>➕ زیادکردنی تاکە کەنال</h3><div class="form"><input id="cname" placeholder="ناوی کەنال"><input id="cicon" placeholder="ئایکۆن وەک 📺"><select id="ccat"><option value="entertainment">گەیاندن</option><option value="news">هەواڵ</option><option value="sport">وەرزش</option></select><input id="curl" placeholder="Stream URL ـی یاسایی"><div class="row"><button class="primary" onclick="addChannel()">زیادکردن</button><button onclick="resetDemo()">کەنالە سەرەتاییەکان</button></div></div></div><div class="panel" style="margin-top:15px"><h3>📋 کەنالەکان</h3><div id="adminList"></div></div></section>
-</main><footer>© 2026 Znar TV</footer>
-<script>
-const ADMIN_PASSWORD="znar2026";
-const defaults=[{name:"Znar TV",icon:"📺",cat:"entertainment",url:""},{name:"News Channel",icon:"📰",cat:"news",url:""},{name:"Sport Channel",icon:"⚽",cat:"sport",url:""},{name:"Music Channel",icon:"🎵",cat:"entertainment",url:""}];
-let channels=JSON.parse(localStorage.getItem("znar_channels")||"null")||defaults;
-const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-function save(){localStorage.setItem("znar_channels",JSON.stringify(channels))}
-function card(c,i){return `<div class="card"><div class="thumb">${esc(c.icon)}</div><span class="live"><span class="dot"></span> LIVE</span><h3>${esc(c.name)}</h3><p>${esc(c.cat)}</p><button style="margin-top:9px" onclick="play(${i})">▶ بینین</button></div>`}
-function render(){homeGrid.innerHTML=channels.map(card).join("");liveGrid.innerHTML=channels.map(card).join("");adminList.innerHTML=channels.map((c,i)=>`<div class="admin-item"><span>${esc(c.icon)} ${esc(c.name)}</span><button class="danger" onclick="delChannel(${i})">🗑 سڕینەوە</button></div>`).join("")}
-function show(id){document.querySelectorAll("main>section").forEach(x=>x.style.display="none");if(id==="admin"){document.getElementById(sessionStorage.getItem("znar_admin")==="1"?"admin":"login").style.display="block"}else document.getElementById(id).style.display="block";scrollTo({top:0,behavior:"smooth"})}
-function login(){if(pass.value===ADMIN_PASSWORD){sessionStorage.setItem("znar_admin","1");pass.value="";show("admin")}else alert("وشەی نهێنی هەڵەیە")}
-function logout(){sessionStorage.removeItem("znar_admin");show("home")}
-function addChannel(){let name=cname.value.trim();if(!name)return alert("ناوی کەنال بنووسە");channels.push({name,icon:cicon.value.trim()||"📺",cat:ccat.value,url:curl.value.trim()});save();cname.value=cicon.value=curl.value="";render();alert("کەنال زیاد کرا")}
-function delChannel(i){if(confirm("دڵنیایت؟")){channels.splice(i,1);save();render()}}
-function resetDemo(){channels=JSON.parse(JSON.stringify(defaults));save();render()}
-function play(i){let c=channels[i];player.style.display="block";playerTitle.textContent=c.name;let v=video;if(c.url){v.src=c.url;v.play().catch(()=>{})}else{v.removeAttribute("src");v.load();alert("ئەم کەنالە Stream URL ـی نییە.")}player.scrollIntoView({behavior:"smooth"})}
-function closePlayer(){video.pause();video.removeAttribute("src");video.load();player.style.display="none"}
+<section class="toolbar"><input id="search" placeholder="گەڕان بە ناوی کەنال..."/><select id="category"><option value="all">هەموو کەنالەکان</option></select></section>
+<section id="categories" class="chips"></section>
+<div id="grid" class="grid"></div>
+</main>
+<div id="player" class="modal hidden"><div class="playerbox"><button id="close">×</button><h2 id="ptitle"></h2><video id="video" controls autoplay playsinline></video><p id="pmsg"></p></div></div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
-function parseM3U(text){
-  const lines=text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
-  const out=[]; let meta=null;
-  for(const line of lines){
-    if(line.startsWith("#EXTINF")){
-      const comma=line.indexOf(",");
-      let title=comma>=0?line.slice(comma+1).trim():"Channel";
-      const logo=(line.match(/tvg-logo="([^"]*)"/i)||[])[1]||"";
-      const group=(line.match(/group-title="([^"]*)"/i)||[])[1]||"entertainment";
-      meta={name:title||"Channel",icon:"📺",cat:group,url:"",logo};
-    }else if(!line.startsWith("#") && meta){
-      meta.url=line;
-      out.push(meta); meta=null;
+<script>
+const grid = document.getElementById('grid');
+const search = document.getElementById('search');
+const category = document.getElementById('category');
+const chips = document.getElementById('categories');
+const player = document.getElementById('player');
+const video = document.getElementById('video');
+const ptitle = document.getElementById('ptitle');
+const pmsg = document.getElementById('pmsg');
+const closeBtn = document.getElementById('close');
+let channels = [], hls = null;
+
+const html = {escape:s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))};
+function parseM3U(txt){
+  const lines = txt.split(/?
+/).map(x=>x.trim()).filter(Boolean);
+  const out=[];
+  for(let i=0;i<lines.length;i++){
+    if(lines[i].startsWith('#EXTINF:')){
+      const info=lines[i];
+      const comma=info.indexOf(',');
+      const name=comma>=0 ? info.slice(comma+1).trim() : 'Channel';
+      const group=(info.match(/group-title="([^"]*)"/i)||[])[1] || 'Kurdish';
+      const logo=(info.match(/tvg-logo="([^"]*)"/i)||[])[1] || '';
+      const url=lines[i+1] && !lines[i+1].startsWith('#') ? lines[i+1] : '';
+      if(url) out.push({name,group,logo,url});
     }
   }
   return out;
 }
-function addPlaylistItems(items){
-  if(!items.length) return alert("هیچ کەنالێک لە M3U ـەکە نەدۆزرایەوە.");
-  channels=channels.concat(items.map(x=>({name:x.name,icon:x.icon||"📺",cat:x.cat||"entertainment",url:x.url,logo:x.logo||""})));
-  save(); render(); alert(items.length+" کەنال زیاد کرا.");
+
+function render(list=channels){
+  grid.innerHTML='';
+  if(!list.length){ grid.innerHTML='<p>هیچ کەنالێک نەدۆزرایەوە.</p>'; return; }
+  list.forEach(c=>{
+    const card=document.createElement('article');
+    card.className='channel';
+    card.innerHTML=`
+      <div class="logo">${c.logo ? `<img src="${html.escape(c.logo)}" alt="">` : 'TV'}</div>
+      <h3>${html.escape(c.name)}</h3>
+      <small>${html.escape(c.group)}</small>
+      <button>▶️ Play</button>`;
+    card.querySelector('button').onclick=()=>play(c);
+    grid.appendChild(card);
+  });
 }
-function importM3UText(){
-  const text=document.getElementById("m3uText").value.trim();
-  if(!text) return alert("ناوەڕۆکی M3U دابنێ.");
-  addPlaylistItems(parseM3U(text));
+function fillCategories(){
+  const groups=[...new Set(channels.map(c=>c.group).filter(Boolean))];
+  category.innerHTML='<option value="all">هەموو کەنالەکان</option>'+groups.map(g=>`<option value="${html.escape(g)}">${html.escape(g)}</option>`).join('');
+  chips.innerHTML=groups.map(g=>`<button data-g="${html.escape(g)}">${html.escape(g)}</button>`).join('');
+  chips.querySelectorAll('button').forEach(b=>b.onclick=()=>{category.value=b.dataset.g; filter();});
 }
-function importM3UFile(e){
-  const file=e.target.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=()=>{document.getElementById("m3uText").value=reader.result; addPlaylistItems(parseM3U(reader.result));};
-  reader.readAsText(file);
+function filter(){
+  const q=search.value.toLowerCase().trim(), g=category.value;
+  render(channels.filter(c=>(g==='all'||c.group===g) && c.name.toLowerCase().includes(q)));
 }
-async function importM3UUrl(){
-  const url=document.getElementById("m3uUrl").value.trim();
-  if(!url) return alert("M3U URL دابنێ.");
-  try{
-    const r=await fetch(url);
-    if(!r.ok) throw new Error("HTTP "+r.status);
-    const text=await r.text();
-    document.getElementById("m3uText").value=text;
-    addPlaylistItems(parseM3U(text));
-  }catch(e){
-    alert("ئەم URL ـە لە browser ـەکەوە نەخوێندرایەوە. زۆرجار هۆکارەکە CORS ـە. فایلە .m3u ـەکە Upload بکە یان ناوەڕۆکەکە paste بکە.");
-  }
+function play(c){
+  player.classList.remove('hidden'); ptitle.textContent=c.name; pmsg.textContent='';
+  if(hls){hls.destroy();hls=null;}
+  video.pause(); video.removeAttribute('src'); video.load();
+  if(video.canPlayType('application/vnd.apple.mpegurl')){
+    video.src=c.url; video.play().catch(()=>{});
+  }else if(window.Hls && Hls.isSupported()){
+    hls=new Hls(); hls.loadSource(c.url); hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));
+    hls.on(Hls.Events.ERROR,()=>pmsg.textContent='ئەم Stream ـە لە ئێستادا کار ناکات یان ڕێگەی CORS داخراوە.');
+  }else pmsg.textContent='ئەم براوزەرە HLS پشتگیری ناکات.';
 }
-render();
-</script></body></html>
+function closePlayer(){if(hls){hls.destroy();hls=null;} video.pause(); video.removeAttribute('src'); video.load(); player.classList.add('hidden');}
+closeBtn.onclick=closePlayer;
+search.oninput=filter; category.onchange=filter;
+window.addEventListener('click',e=>{if(e.target===player)closePlayer();});
+
+fetch('Kurdish_Channels.m3u')
+  .then(r=>{if(!r.ok) throw new Error('M3U not found'); return r.text();})
+  .then(txt=>{channels=parseM3U(txt); fillCategories(); render();})
+  .catch(()=>{grid.innerHTML='<p>فایلی Kurdish_Channels.m3u نەدۆزرایەوە. هەردوو فایلەکە (index.html و Kurdish_Channels.m3u) لە هەمان فولدەر دابنێ.</p>';});
+</script>
+
+</body></html>
